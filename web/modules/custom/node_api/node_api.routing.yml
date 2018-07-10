@@ -1,0 +1,8 @@
+# Node API endpoints
+
+node_api.get:
+  path: 'node_api/nodes/{node_type}'
+  defaults: { _controller: '\Drupal\node_api\Controller\NodeApiController::get_node_api' }
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'

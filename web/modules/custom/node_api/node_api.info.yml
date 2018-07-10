@@ -1,0 +1,4 @@
+name: NODE API
+type: module
+description: 'Dynamic Node API'
+core: 8.x

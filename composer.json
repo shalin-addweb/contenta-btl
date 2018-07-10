@@ -1,9 +1,13 @@
 {
-    "name": "contentacms/contenta-jsonapi-project",
-    "description": "Project template for ",
+    "name": "drupal-composer/drupal-project",
+    "description": "Project template for Drupal 8 projects with composer",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "authors": [
+        {
+            "name": "",
+            "role": ""
+        }
     ],
     "repositories": [
         {
@@ -12,31 +16,47 @@
         }
     ],
     "require": {
-        "contentacms/contenta_jsonapi": "dev-8.x-1.x",
-        "drupal-composer/drupal-scaffold": "^2.2",
-        "cweagans/composer-patches": "^1.6.0",
-        "webflo/drupal-core-strict": "8.5.3",
-        "drush/drush": "~8.1.12"
+        "composer/installers": "^1.2",
+        "cweagans/composer-patches": "^1.6",
+        "drupal-composer/drupal-scaffold": "^2.5",
+        "drupal/admin_toolbar": "^1.24",
+        "drupal/bootstrap": "^3.11",
+        "drupal/console": "^1.0.2",
+        "drupal/core": "~8.5.3",
+        "drush/drush": "^9.0.0",
+        "vlucas/phpdotenv": "^2.4",
+        "webflo/drupal-finder": "^1.0.0",
+        "webmozart/path-util": "^2.3"
+    },
+    "require-dev": {
+        "webflo/drupal-core-require-dev": "~8.5.3"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
     "autoload": {
         "classmap": [
             "scripts/composer/ScriptHandler.php"
-        ]
+        ],
+        "files": ["load.environment.php"]
     },
     "scripts": {
-        "dependency-cleanup": [
-            "Drupal\\composer\\ScriptHandler::dependencyCleanup"
+        "pre-install-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
         ],
-        "drupal-scaffold": "Drupal\\DrupalScaffold\\Plugin::scaffold",
+        "pre-update-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+        ],
         "post-install-cmd": [
-            "Drupal\\composer\\ScriptHandler::buildScaffold",
-            "Drupal\\composer\\ScriptHandler::createRequiredFiles"
+            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
         ],
         "post-update-cmd": [
-            "Drupal\\composer\\ScriptHandler::buildScaffold",
-            "Drupal\\composer\\ScriptHandler::createRequiredFiles"
+            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
         ]
     },
     "extra": {
@@ -46,16 +66,13 @@
             "web/modules/contrib/{$name}": ["type:drupal-module"],
             "web/profiles/contrib/{$name}": ["type:drupal-profile"],
             "web/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/contrib/{$name}": ["type:drupal-drush"]
+            "drush/Commands/{$name}": ["type:drupal-drush"]
         },
-        "enable-patching": true,
-        "patches":{}
-    },
-    "config": {
-        "preferred-install": {
-            "asm89/stack-cors": "source",
-            "*": "auto"
-        },
-        "bin-dir": "bin/"
+        "drupal-scaffold": {
+            "initial": {
+                ".editorconfig": "../.editorconfig",
+                ".gitattributes": "../.gitattributes"
+            }
+        }
     }
 }
